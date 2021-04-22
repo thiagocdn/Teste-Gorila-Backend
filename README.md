@@ -49,7 +49,7 @@ Esse programa é constituido de uma rota para o cálculo de investimento pós-fi
 - Para obter o resultado, faça uma requisição do tipo *POST* para a rota "/cdb".
 - No corpo da requisição é necessário informar as datas de início e fim do investimento (investmentDate e currentDate, respectivamente) e a % do CDI do investimento (cdbRate)
 
-ex.: POST http://localhost:3333/cdb
+ex.: POST http://localhost:8000/cdb
 Request Body:
 ```JSON
 {
