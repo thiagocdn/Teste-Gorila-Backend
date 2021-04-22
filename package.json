@@ -4,7 +4,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts"
+    "dev": "ts-node-dev src/server.ts",
+		"start": "tsc && node ./dist/app.js",
+		"watch": "tsc -w",
+		"server": "nodemon ./dist/app.js"
   },
   "dependencies": {
     "express": "^4.17.1",
