@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
-    "postinstall": "npm run tsc",
+    "postinstall": "tsc",
 		"start": "node ./dist/server.js"
   },
   "dependencies": {
