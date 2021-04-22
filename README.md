@@ -6,7 +6,17 @@ https://www.notion.so/Teste-para-desenvolvedor-back-end-pleno-fd5b6e07475e4af3bc
 
 Use o enunciado como referência para um melhor entendimento sobre sua funcionalidade.
 
-## Instalação
+
+## Deploy e Disponibilidade
+
+Essa aplicação está disponível na seguinte URL:
+
+https://gorila-backend.herokuapp.com/
+
+Leia a seção **Rotas de utilização** para saber como usar a rota de cálculo
+
+
+## Instalação Local
 
 - Para rodar em sua máquina, clone o repositório através do terminal:
 ```
@@ -43,13 +53,16 @@ yarn dev
 ```
 npm run dev
 ```
+
+Atenção: a porta padrão utilizada é a 8000, logo a aplicação deve rodar em http://localhost:8000/
+
 ## Rotas de utilização
 Esse programa é constituido de uma rota para o cálculo de investimento pós-fixado atrelado ao CDI, conforme informado no enunciado;
 
 - Para obter o resultado, faça uma requisição do tipo *POST* para a rota "/cdb".
 - No corpo da requisição é necessário informar as datas de início e fim do investimento (investmentDate e currentDate, respectivamente) e a % do CDI do investimento (cdbRate)
 
-ex.: POST http://localhost:8000/cdb
+ex.: POST https://gorila-backend.herokuapp.com/cdb
 Request Body:
 ```JSON
 {
