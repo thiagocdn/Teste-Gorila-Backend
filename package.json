@@ -5,8 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
-    "postinstall": "yarn tsc",
-		"start": "tsc && node ./dist/server.js"
+    "postinstall": "npm run tsc",
+		"start": "node ./dist/server.js"
   },
   "dependencies": {
     "express": "^4.17.1",
