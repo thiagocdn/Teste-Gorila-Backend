@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
+    "postinstall": "yarn tsc",
 		"start": "tsc && node ./dist/server.js"
   },
   "dependencies": {
