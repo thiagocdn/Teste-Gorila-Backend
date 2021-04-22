@@ -25,11 +25,15 @@ cdbRouter.post('/', async (request, response) => {
   } = handleIncomeData(request.body);
 
   if(!checkInvestmentDate) {
-    return response.json({error: 'Check the date of the invesment'});
+    return response.status(400).json({error: 'Check the date of the invesment'});
   }
 
   if(!checkCurrentDate) {
-    return response.json({error: 'Check the end date of the invesment'});
+    return response.status(400).json({error: 'Check the end date of the invesment'});
+  }
+
+  if(typeof(cdbRate) !== 'number') {
+    return response.status(400).json({error: 'CDB Rate must be a number'});
   }
   
   const cdiResponse = calculateCDBPosFixado({
