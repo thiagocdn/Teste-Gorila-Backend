@@ -21,7 +21,7 @@ interface CSVFileDTORaw {
 }
 
 let cdiPrices: CSVFileDTO[] = [];
-fs.createReadStream(path.resolve(__dirname, 'CDI_Prices.csv'))
+fs.createReadStream(path.resolve(__dirname, '..', 'public', 'CDI_Prices.csv'))
 .pipe(csv.parse({ headers: true }))
 .on('error', error => console.error(error))
 .on('data', ({dtDate, dLastTradePrice}: CSVFileDTORaw) => {

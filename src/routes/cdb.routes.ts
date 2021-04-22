@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { calculateCDBPosFixado } from '../../utils/cdb.utils';
+import { calculateCDBPosFixado } from '../utils/cdb.utils';
 
 
 const cdbRouter = Router();
