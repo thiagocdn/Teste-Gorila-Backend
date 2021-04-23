@@ -180,7 +180,7 @@ e você terá o resultado dos testes automatizados das funções:
 
 ![image](https://user-images.githubusercontent.com/61380775/115892571-a7c32600-a42d-11eb-811c-ed83f6721790.png)
 
-## Resultados e Trataiva de Erros
+## Resultados e Tratativa de Erros
 
 + Caso seja feito uma requisição corretamente, conforme proposto na seção **Rotas de utilização**, você receberá o retorno correto com o array de evolução do investimento:
 
