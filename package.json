@@ -4,9 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev server.ts",
     "start": "tsc && npm run copy-files && node ./dist/server.js",
-    "copy-files": "cp ./src/public/ ./dist/public/ -r",
+    "copy-files": "cp ./public/ ./dist/public/ -r",
     "tsc": "tsc -w --copy-files",
     "test": "jest"
   },
