@@ -57,6 +57,7 @@ npm run dev
 Atenção: a porta padrão utilizada é a 8000, logo a aplicação deve rodar em http://localhost:8000/
 
 ## Rotas de utilização
+
 Esse programa é constituido de uma rota para o cálculo de investimento pós-fixado atrelado ao CDI, conforme informado no enunciado;
 
 - Para obter o resultado, faça uma requisição do tipo *POST* para a rota "/cdb".
@@ -162,3 +163,38 @@ ex.:
   }
 ]
 ```
+
+## Testes
+
++ Essa aplicação consta com testes para suas principais funções desenvolvidos com o JEST. Para rodas os testes, apenas rode o comando:
++ 
+```
+npm run test
+```
+ou
+```
+yarn test
+```
+
+e você terá o resultado dos testes automatizados das funções:
+
+![image](https://user-images.githubusercontent.com/61380775/115892571-a7c32600-a42d-11eb-811c-ed83f6721790.png)
+
+## Resultados e Trataiva de Erros
+
++ Caso seja feito uma requisição corretamente, conforme proposto na seção **Rotas de utilização**, você receberá o retorno correto com o array de evolução do investimento:
+
+![image](https://user-images.githubusercontent.com/61380775/115893375-7bf47000-a42e-11eb-83e3-8a624c13162b.png)
+
++ Caso você envie uma data inválida dentro do investmentDate, ele retornará um erro 400 - Bad Request, indicando para checar esse campo da requisição:
+
+![image](https://user-images.githubusercontent.com/61380775/115893418-8878c880-a42e-11eb-8209-9901ad115097.png)
+
++ O mesmo ocorre para o currentDate:
+
+![image](https://user-images.githubusercontent.com/61380775/115893464-9595b780-a42e-11eb-9e78-991f03931e5a.png)
+
++ E caso você envie um cdbRate que não seja um numero, o retorno também indicará para você checar esse valor:
+
+![image](https://user-images.githubusercontent.com/61380775/115893570-b8c06700-a42e-11eb-8aaf-2b30a1520d06.png)
+
