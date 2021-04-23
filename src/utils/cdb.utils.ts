@@ -1,8 +1,10 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import * as csv from 'fast-csv';
-import { calculateTCDIacc, calculateTCDIk, round, roundFloor } from './math.utils';
+import { calculateTCDIacc, calculateTCDIk, roundFloor } from './math.utils';
 import { formatDateResponse } from './date.utils';
+
+// Função que le o arquivo CSV e inclui na variável cdiPrices.
+// Pode ser subtituida por uma API, consulta ao BD, etc.
+// O importante é retornar a variável conforme padrão
+import { cdiPrices } from './file.utils';
 
 interface calculateCdbDTO {
   investmentDate: Date;
@@ -10,33 +12,6 @@ interface calculateCdbDTO {
   currentDate: Date;
 }
 
-interface CSVFileDTO {
-  dtDate: Date;
-  dLastTradePrice: number;
-}
-
-interface CSVFileDTORaw {
-  dtDate: string;
-  dLastTradePrice: string;
-}
-
-let cdiPrices: CSVFileDTO[] = [];
-fs.createReadStream(path.resolve(__dirname, '..', 'public', 'CDI_Prices.csv'))
-.pipe(csv.parse({ headers: true }))
-.on('error', error => console.error(error))
-.on('data', ({dtDate, dLastTradePrice}: CSVFileDTORaw) => {
-  const [dtDateDay, dtDateMoth, dtDateYear] = dtDate.split('/');
-  cdiPrices.unshift({
-    dtDate: new Date(
-      Number(dtDateYear),
-      Number(dtDateMoth) - 1, // Adjust for month
-      Number(dtDateDay)
-    ),
-    dLastTradePrice: Number(dLastTradePrice)})
-})
-.on('end', () => {
-  cdiPrices.sort((a, b) => a.dtDate > b.dtDate ? 1 : -1 )
-})
 
 export function calculateCDBPosFixado({
     investmentDate,
@@ -44,20 +19,30 @@ export function calculateCDBPosFixado({
     currentDate
   }: calculateCdbDTO) {
     
-
-    // Poderia usar um .map para fazer TUDO, porem gastará processamento atoa
-    // caso a currentDate seja menor que a ultima data do CSV
+    // Poderia usar um .map no array para fazer toda a lógica, porem gastará
+    // processamento atoa sendo necessário percorrer o array inteiro em qualquer situação.
+    // Nessa estratégia é poupado checagem do array em várias situações.
     const initialIndex = cdiPrices.findIndex((cdiData) => {
       return (cdiData.dtDate >= investmentDate);
     });
     
     let cdiResponse = [];
     let cdiCumulator = 1;
+
+    // For para fazer o processamento dos dados e calculo da evolucao
     for (let i = initialIndex; i < cdiPrices.length; i++) {
+      // Caso a data seja maior (ou igual, ja que o dia precisa terminar para
+      // constar a soma no investimento) ele pára a iteração.
       if(cdiPrices[i].dtDate >= currentDate) break;
+
+      // Calculo da Taxa do CDI diário considerando o CDI anualizado na data especifica
       const TCDIk = calculateTCDIk(cdiPrices[i].dLastTradePrice);
+      // Atualização do acumulador do investimento com o valor anterior,
+      // a taxa do dia calculada e o % relativa do investimento
       cdiCumulator = calculateTCDIacc(cdiCumulator, TCDIk, cdbRate);
+      // Formatação da data para incluir no array de retorno
       const date = formatDateResponse(cdiPrices[i].dtDate);
+      // Adição do elemento de evolução no array de retorno
       cdiResponse.push({
         date,
         unitPrice: roundFloor(cdiCumulator * 1000,2)

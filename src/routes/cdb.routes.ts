@@ -10,8 +10,10 @@ interface cdbCalcRequestDTO {
   currentDate: string;
 }
 
-
+// Requisição POST que fará o cálculo e retorno da evolução do investimento de CDB (*/cdb/)
 cdbRouter.post('/', async (request, response) => {
+
+  // Funcao handleIncomeData separa e valida todas as variaveis recebidas na requisicao
   const {
     checkInvestmentDate,
     checkCurrentDate,
@@ -24,6 +26,7 @@ cdbRouter.post('/', async (request, response) => {
     investmentDateYear
   } = handleIncomeData(request.body);
 
+  // Checagem se houve alguma variavel recebida invalida
   if(!checkInvestmentDate) {
     return response.status(400).json({error: 'Check the date of the invesment'});
   }
@@ -36,6 +39,7 @@ cdbRouter.post('/', async (request, response) => {
     return response.status(400).json({error: 'CDB Rate must be a number'});
   }
   
+  // Funcao principal de calculo do CDB
   const cdiResponse = calculateCDBPosFixado({
     investmentDate: new Date(
       Number(investmentDateYear),
@@ -50,10 +54,11 @@ cdbRouter.post('/', async (request, response) => {
     ),
   });
   
+  // Tudo ok, retorna a evolucao do investimento
   return response.json(cdiResponse);
 });
 
-function handleIncomeData(data: cdbCalcRequestDTO) {
+export function handleIncomeData(data: cdbCalcRequestDTO) {
   const {
     investmentDate,
     cdbRate,
@@ -62,9 +67,14 @@ function handleIncomeData(data: cdbCalcRequestDTO) {
   let checkInvestmentDate = true;
   let checkCurrentDate = true;
 
+  // Separação das variáveis recebidas no padrão yyyy-mm-dd
   const [investmentDateYear, investmentDateMonth, investmentDateDay] = investmentDate.split('-');
   const [currentDateYear, currentDateMonth, currentDateDay] = currentDate.split('-');
 
+  // Checagem se as datas foram recebidas corretamente
+  // - Todas sao numeros
+  // - Dias entre 1 e 31
+  // - Meses entre 1 e 12
   if(Number(investmentDateDay) < 1 || Number(investmentDateDay) > 31 ||
   Number(investmentDateMonth) < 1 || Number(investmentDateMonth) > 12 ||
   (!Number(investmentDateYear) || !Number(investmentDateMonth) || !Number(investmentDateDay))) {
